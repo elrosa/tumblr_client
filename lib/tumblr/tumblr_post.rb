@@ -9,7 +9,7 @@ module Tumblr
 
     def text
       @text ||= case @attrs["type"]
-          when "photos" then @attrs["caption"]
+          when "photo" then @attrs["caption"]
           when "quote" then "#{@attrs["text"]} <br/> #{@attrs["source"]}"
           when "link" then @attrs["description"]
           when "audio", "video" then @attrs["caption"]
