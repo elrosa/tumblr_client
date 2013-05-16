@@ -5,6 +5,7 @@ require 'tumblr/connection'
 require 'tumblr/post'
 require 'tumblr/tagged'
 require 'tumblr/helpers'
+require 'tumblr/base_model'
 
 module Tumblr
   class Client
