@@ -8,7 +8,14 @@ module Tumblr
     def dashboard(options = {})
       valid_opts = [:limit, :offset, :type, :since_id, :reblog_info, :notes_info]
       validate_options(valid_opts, options)
-      get('v2/user/dashboard', options)
+      response = get('v2/user/dashboard', options)
+      if response["posts"]
+        response["posts"].map{|p|
+          Tumblr::TumblrPost.new(p)
+        }
+      else
+        []
+      end
     end
 
     def likes(options = {})

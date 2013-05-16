@@ -37,7 +37,14 @@ module Tumblr
 
       params = { :api_key => @consumer_key }
       params.merge! options
-      get(url, params)
+      response = get(url, params)
+      if response["posts"]
+        response["posts"].map{|p|
+          Tumblr::TumblrPost.new(p)
+        }
+      else
+        []
+      end
     end
 
     def queue(blog_name, options = {})
