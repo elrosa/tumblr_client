@@ -1,7 +1,7 @@
 module Tumblr
   class TumblrPost < Tumblr::BaseModel
     lazy_attr_reader :id, :post_url, :type, :timestamp, :date, :reblog_key, :liked,
-                     :photos, :text, :title, :link
+                     :photos, :text, :title, :link, :author
 
     def photos
       @photos ||= @attrs["photos"].present? ? @attrs["photos"].map{|p| p["alt_sizes"].first.try(:fetch, "url", nil)} : []
@@ -25,6 +25,16 @@ module Tumblr
 
     def link
       @link ||= (@attrs["url"] || @attrs["source_url"])
+    end
+
+    def author
+      @author ||= {
+          name: @attrs["blog_name"],
+          nickname: @attrs["blog_name"],
+          id: @attrs["blog_name"],
+          url: URI(@attrs["post_url"]).host,
+          avatar_url: "http://api.tumblr.com/v2/blog/#{@attrs["blog_name"]}.tumblr.com/avatar"
+      }
     end
 
 
