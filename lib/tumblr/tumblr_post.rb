@@ -20,7 +20,7 @@ module Tumblr
     end
 
     def title
-      @title ||= (@attrs["title"] || @atrs["source_title"])
+      @title ||= (@attrs["title"] || @attrs["source_title"])
     end
 
     def link
