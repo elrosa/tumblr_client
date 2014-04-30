@@ -1,6 +1,6 @@
 # Tumblr Ruby Gem
 
-[![Build Status](https://secure.travis-ci.org/tumblr/tumblr_client.png)](http://travis-ci.org/tumblr/tumblr_client)
+[![Gem Version](https://badge.fury.io/rb/tumblr_client.png)](http://badge.fury.io/rb/tumblr_client) [![Build Status](https://secure.travis-ci.org/tumblr/tumblr_client.png)](http://travis-ci.org/tumblr/tumblr_client)
 
 This is the official Ruby wrapper for the Tumblr v2 API. It supports all
 endpoints currently available on the
@@ -33,6 +33,11 @@ Once you have your configuration squared away it's time to make some requests!
 
 That's it! You now have a client that can make any request to the Tumblr API.
 
+Also since the client is created with the amazing library [Faraday](https://github.com/lostisland/faraday), you can
+configure it to use any HTTP Client it supports.
+    
+    >> client = Tumblr::Client.new(:client => :httpclient)
+
 ### Some quick examples
 
 Getting user information:
@@ -52,10 +57,6 @@ Posting some photos to Tumblr:
 
     # Uploads a great photoset
     >> client.photo("codingjester.tumblr.com", {:data => ['/path/to/pic.jpg', '/path/to/pic.jpg']}) 
-
-    # You can also post with the raw data
-    >> raw = File.open('/path/to/pic.jpg', 'rb').read
-    >> client.photo('codingjester.tumblr.com', :data_raw => [raw]
 
 ### The irb Console
 

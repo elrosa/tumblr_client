@@ -43,7 +43,10 @@ module Tumblr
       if [201, 200].include?(response.status)
         response.body['response']
       else
-        response.body['meta']
+        # surface the meta alongside response
+        res = response.body['meta'] || {}
+        res.merge! response.body['response'] if response.body['response'].is_a?(Hash)
+        res
       end
     end
 
