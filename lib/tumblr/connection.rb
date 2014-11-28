@@ -18,7 +18,7 @@ module Tumblr
       client = Faraday.default_adapter
 
       Faraday.new(default_options.merge(options)) do |conn|
-        data = { :api_host => api_host }.merge(credentials)
+        data = { :api_host => api_host, :ignore_extra_keys => true}.merge(credentials)
         unless credentials.empty?
           conn.request :oauth, data
         end
