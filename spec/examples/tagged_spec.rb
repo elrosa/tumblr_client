@@ -15,7 +15,7 @@ describe Tumblr::Tagged do
   describe :tagged do
 
     before do
-      client.should_receive(:get).once.with('v2/tagged', {
+      expect(client).to receive(:get).once.with('v2/tagged', {
         :tag => tag,
         :api_key => consumer_key
       }).and_return('response')
@@ -23,7 +23,7 @@ describe Tumblr::Tagged do
 
     it 'should setup the request properly' do
       r = client.tagged tag
-      r.should == 'response'
+      expect(r).to eq('response')
     end
 
   end

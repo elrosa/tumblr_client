@@ -6,7 +6,8 @@ module Tumblr
       :consumer_secret,
       :oauth_token,
       :oauth_token_secret,
-      :client
+      :client,
+      :api_scheme
     ]
 
     attr_accessor *VALID_OPTIONS_KEYS

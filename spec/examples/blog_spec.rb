@@ -11,19 +11,19 @@ describe Tumblr::Blog do
   describe :blog_info do
 
     it 'should make the proper request' do
-      client.should_receive(:get).once.with("v2/blog/#{blog_name}/info", {
+      expect(client).to receive(:get).once.with("v2/blog/#{blog_name}/info", {
         :api_key => consumer_key
       }).and_return 'response'
       r = client.blog_info blog_name
-      r.should == 'response'
+      expect(r).to eq('response')
     end
 
     it 'should make the proper request with a short blog name' do
-      client.should_receive(:get).once.with("v2/blog/b.tumblr.com/info", {
+      expect(client).to receive(:get).once.with("v2/blog/b.tumblr.com/info", {
         :api_key => consumer_key
       }).and_return 'response'
       r = client.blog_info 'b'
-      r.should == 'response'
+      expect(r).to eq('response')
     end
 
   end
@@ -33,13 +33,13 @@ describe Tumblr::Blog do
     context 'when supplying a size' do
 
       before do
-        client.should_receive(:get_redirect_url).once.with("v2/blog/#{blog_name}/avatar/128").
+        expect(client).to receive(:get_redirect_url).once.with("v2/blog/#{blog_name}/avatar/128").
         and_return('url')
       end
 
       it 'should construct the request properly' do
         r = client.avatar blog_name, 128
-        r.should == 'url'
+        expect(r).to eq('url')
       end
 
     end
@@ -47,13 +47,13 @@ describe Tumblr::Blog do
     context 'when no size is specified' do
 
       before do
-        client.should_receive(:get_redirect_url).once.with("v2/blog/#{blog_name}/avatar").
+        expect(client).to receive(:get_redirect_url).once.with("v2/blog/#{blog_name}/avatar").
         and_return('url')
       end
 
       it 'should construct the request properly' do
         r = client.avatar blog_name
-        r.should == 'url'
+        expect(r).to eq('url')
       end
 
     end
@@ -65,9 +65,9 @@ describe Tumblr::Blog do
     context 'with invalid parameters' do
 
       it 'should raise an error' do
-        lambda {
+        expect(lambda {
           client.followers blog_name, :not => 'an option'
-        }.should raise_error ArgumentError
+        }).to raise_error ArgumentError
       end
 
     end
@@ -75,14 +75,14 @@ describe Tumblr::Blog do
     context 'with valid parameters' do
 
       before do
-        client.should_receive(:get).once.with("v2/blog/#{blog_name}/followers", {
+        expect(client).to receive(:get).once.with("v2/blog/#{blog_name}/followers", {
           :limit => 1
         }).and_return('response')
       end
 
       it 'should construct the request properly' do
         r = client.followers blog_name, :limit => 1
-        r.should == 'response'
+        expect(r).to eq'response'
       end
 
     end
@@ -94,9 +94,9 @@ describe Tumblr::Blog do
     context 'with invalid parameters' do
 
       it 'should raise an error' do
-        lambda {
+        expect(lambda {
           client.blog_likes blog_name, :not => 'an option'
-        }.should raise_error ArgumentError
+        }).to raise_error ArgumentError
       end
 
     end
@@ -104,7 +104,7 @@ describe Tumblr::Blog do
     context 'with valid parameters' do
 
       before do
-        client.should_receive(:get).once.with("v2/blog/#{blog_name}/likes", {
+        expect(client).to receive(:get).once.with("v2/blog/#{blog_name}/likes", {
           :limit => 1,
           :api_key => consumer_key
         }).and_return('response')
@@ -112,7 +112,7 @@ describe Tumblr::Blog do
 
       it 'should construct the request properly' do
         r = client.blog_likes blog_name, :limit => 1
-        r.should == 'response'
+        expect(r).to eq('response')
       end
 
     end
@@ -124,7 +124,7 @@ describe Tumblr::Blog do
     context 'without a type supplied' do
 
       before do
-        client.should_receive(:get).once.with("v2/blog/#{blog_name}/posts", {
+        expect(client).to receive(:get).once.with("v2/blog/#{blog_name}/posts", {
           :limit => 1,
           :api_key => consumer_key
         }).and_return('response')
@@ -132,7 +132,7 @@ describe Tumblr::Blog do
 
       it 'should construct the request properly' do
         r = client.posts blog_name, :limit => 1
-        r.should == 'response'
+        expect(r).to eq('response')
       end
 
     end
@@ -140,7 +140,7 @@ describe Tumblr::Blog do
     context 'when supplying a type' do
 
       before do
-        client.should_receive(:get).once.with("v2/blog/#{blog_name}/posts/audio", {
+        expect(client).to receive(:get).once.with("v2/blog/#{blog_name}/posts/audio", {
           :limit => 1,
           :api_key => consumer_key,
           :type => 'audio'
@@ -149,7 +149,7 @@ describe Tumblr::Blog do
 
       it 'should construct the request properly' do
         r = client.posts blog_name, :limit => 1, :type => 'audio'
-        r.should == 'response'
+        expect(r).to eq('response')
       end
 
     end
@@ -166,9 +166,9 @@ describe Tumblr::Blog do
       context 'when using parameters other than limit & offset' do
 
         it 'should raise an error' do
-          lambda {
+          expect(lambda {
             client.send type, blog_name, :not => 'an option'
-          }.should raise_error ArgumentError
+          }).to raise_error ArgumentError
         end
 
       end
@@ -177,11 +177,11 @@ describe Tumblr::Blog do
 
         it 'should construct the call properly' do
           limit = 5
-          client.should_receive(:get).once.with("v2/blog/#{blog_name}/posts/#{ext}", {
+          expect(client).to receive(:get).once.with("v2/blog/#{blog_name}/posts/#{ext}", {
             :limit => limit
           }).and_return('response')
           r = client.send type, blog_name, :limit => limit
-          r.should == 'response'
+          expect(r).to eq('response')
         end
 
       end

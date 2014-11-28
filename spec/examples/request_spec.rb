@@ -13,7 +13,7 @@ describe Tumblr::Request do
         it 'should return the meta object' do
           data = { :message => 'ohyes' }
           response = OpenStruct.new(:status => rcode, :body => { 'response' => data })
-          client.respond(response).should == data
+          expect(client.respond(response)).to eq(data)
         end
 
       end
@@ -25,13 +25,13 @@ describe Tumblr::Request do
       it 'should return the meta object (merged with response)' do
         meta = { :message => 'ohno' }
         response = OpenStruct.new(:status => 401, :body => { 'meta' => meta, 'response' => { :also => 'hi' } })
-        client.respond(response).should == { :message => 'ohno', :also => 'hi' }
+        expect(client.respond(response)).to eq({ :message => 'ohno', :also => 'hi' })
       end
 
       it 'should return the meta object even when response is nil' do
         meta = { :message => 'ohno' }
         response = OpenStruct.new(:status => 401, :body => { 'meta' => meta, 'response' => nil })
-        client.respond(response).should == meta
+        expect(client.respond(response)).to eq(meta)
       end
 
     end
@@ -43,7 +43,7 @@ describe Tumblr::Request do
     before do
       @path = '/the/path'
       @params = { :hello => 'world' }
-      client.should_receive(:get_response).once.with(@path, @params).
+      expect(client).to receive(:get_response).once.with(@path, @params).
       and_return(OpenStruct.new({
         :status => 200,
         :body => { 'response' => 'result' }
@@ -51,7 +51,7 @@ describe Tumblr::Request do
     end
 
     it 'should get the response directly' do
-      client.get(@path, @params).should == 'result'
+      expect(client.get(@path, @params)).to eq('result')
     end
 
   end
@@ -64,7 +64,7 @@ describe Tumblr::Request do
         @path = '/the/path'
         @params = { :hello => 'world' }
         @redirect_url = 'redirect-to-here'
-        client.should_receive(:get_response).once.with(@path, @params).
+        expect(client).to receive(:get_response).once.with(@path, @params).
         and_return(OpenStruct.new({
           :status => 301,
           :headers => { 'Location' => @redirect_url }
@@ -72,7 +72,7 @@ describe Tumblr::Request do
       end
 
       it 'should return the redirect url' do
-        client.get_redirect_url(@path, @params).should == @redirect_url
+        expect(client.get_redirect_url(@path, @params)).to eq(@redirect_url)
       end
 
     end
@@ -83,7 +83,7 @@ describe Tumblr::Request do
         @path = '/the/path'
         @params = { :hello => 'world' }
         @meta = { :message => 'ohno' }
-        client.should_receive(:get_response).once.with(@path, @params).
+        expect(client).to receive(:get_response).once.with(@path, @params).
         and_return(OpenStruct.new({
           :status => 401,
           :body => { 'meta' => @meta }
@@ -91,7 +91,7 @@ describe Tumblr::Request do
       end
 
       it 'should return the error meta' do
-        client.get_redirect_url(@path, @params).should == @meta
+        expect(client.get_redirect_url(@path, @params)).to eq(@meta)
       end
 
     end
